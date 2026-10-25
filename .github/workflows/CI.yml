@@ -1,4 +1,4 @@
-name: Sync ReSukiSU CI Builds
+name: Sync BakaSU CI Builds
 
 on:
   schedule:
@@ -8,7 +8,7 @@ on:
 env:
   # 可以在这里手动设置需要检查的最新 N 条 Action 数量
   N_LATEST_RUNS: 50 
-  TARGET_REPO: ReSukiSU/ReSukiSU
+  TARGET_REPO: Baka-SU/BakaSU
 
 jobs:
   fetch-and-release:
@@ -32,7 +32,7 @@ jobs:
               run_id=$(echo "$run" | jq -r '.id')
               run_title=$(echo "$run" | jq -r '.title')
               run_url=$(echo "$run" | jq -r '.url')
-              tag_name="ReSukiSU_${run_id}"
+              tag_name="BakaSU_${run_id}"
               
               echo "----------------------------------------"
               echo "Checking run ID: $run_id (Title: $run_title)"
@@ -100,8 +100,8 @@ jobs:
                   fi
                   
                   # 检索目标 apk 文件并提取五位版本号
-                  # 使用正则匹配形如 ReSukiSU_*_?????-*.apk 的文件
-                  apk_file=$(find . -maxdepth 1 -name "ReSukiSU*_[0-9][0-9][0-9][0-9][0-9]-*.apk" | head -n 1)
+                  # 使用正则匹配形如 BakaSU_*_?????-*.apk 的文件
+                  apk_file=$(find . -maxdepth 1 -name "BakaSU*_[0-9][0-9][0-9][0-9][0-9]-*.apk" | head -n 1)
                   
                   if [ -n "$apk_file" ]; then
                       # 提取连续的5位数字
@@ -131,7 +131,7 @@ jobs:
                           echo "❌ Could not extract 5 digits from filename: $apk_file"
                       fi
                   else
-                      echo "❌ Required APK pattern (ReSukiSU_*_XXXXX-universal-release.apk) not found. Skipping release."
+                      echo "❌ Required APK pattern (BakaSU_*_XXXXX-universal-release.apk) not found. Skipping release."
                   fi
                   
                   # 退出文件夹并清理，以免影响下一个循环
